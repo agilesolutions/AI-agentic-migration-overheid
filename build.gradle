@@ -95,8 +95,10 @@ jib {
 		image = "${System.getenv("STACKIT_REGISTRY")}/openshift-service:${version}"
 		// Optional: Specify credentials if using a private registry
 		auth {
-			username = System.getenv("OPENSHIFT_REGISTRY_USER")
-			password = System.getenv("OPENSHIFT_REGISTRY_PASSWORD")
+//			username = System.getenv("OPENSHIFT_REGISTRY_USER")
+//			password = System.getenv("OPENSHIFT_REGISTRY_PASSWORD")
+			username = "dd"
+			password = "dd"
 		}
 	}
 	container {

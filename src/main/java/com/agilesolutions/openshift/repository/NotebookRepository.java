@@ -1,6 +1,6 @@
 package com.agilesolutions.openshift.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.agilesolutions.openshift.entity.Notebook;
 
 import java.util.UUID;
 

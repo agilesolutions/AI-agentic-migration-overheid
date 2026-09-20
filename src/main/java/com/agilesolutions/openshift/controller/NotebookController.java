@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.agilesolutions.openshift.dto.CreateNotebookRequest;
+import com.agilesolutions.openshift.dto.NotebookResponse;
 
 import java.util.UUID;
 
