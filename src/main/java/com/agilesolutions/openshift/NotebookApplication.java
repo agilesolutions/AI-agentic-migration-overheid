@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OpenshiftApplication {
+public class NotebookApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OpenshiftApplication.class, args);
+		SpringApplication.run(NotebookApplication.class, args);
 	}
 
 }
