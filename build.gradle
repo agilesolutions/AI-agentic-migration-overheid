@@ -30,7 +30,9 @@ repositories {
 dependencies {
 	implementation libs.spring.web
 	implementation libs.spring.webmvc
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation libs.spring.data.validation
+	implementation 'org.springframework:spring-tx:7.0.9'
 	implementation libs.spring.doc.api
 	implementation libs.spring.doc.ui
 	implementation libs.lombok

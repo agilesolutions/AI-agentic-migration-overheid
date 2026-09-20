@@ -1,5 +1,9 @@
 package com.agilesolutions.openshift.service;
 
+import com.agilesolutions.openshift.dto.NotebookResponse;
+import com.agilesolutions.openshift.entity.Notebook;
+import com.agilesolutions.openshift.exception.NotebookNotFoundException;
+import com.agilesolutions.openshift.repository.NotebookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

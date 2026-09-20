@@ -1,5 +1,8 @@
 package com.agilesolutions.openshift.controller;
 
+import com.agilesolutions.openshift.dto.CreateNotebookRequest;
+import com.agilesolutions.openshift.dto.NotebookResponse;
+import com.agilesolutions.openshift.service.NotebookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,9 +14,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
-import com.agilesolutions.openshift.dto.CreateNotebookRequest;
-import com.agilesolutions.openshift.dto.NotebookResponse;
 
 import java.util.UUID;
 
