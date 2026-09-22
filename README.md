@@ -5,7 +5,7 @@ Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind
 
 Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich (Move van VMs naar Kubernetes workloads).
 
-## Verwarring omtrent de move naar Azure
+## Verwarring omtrent de move naar Azure en EU NIS2 (Network and Information Security) richtlijnen
 [NIS2-richtlijn](https://stackit.com/en/learn/knowledge/nis2) (in Nederland de Cyberbeveiligingswet) is op 15 augustus 2026 officieel in werking getreden. Deze wetgeving is relevanter dan ooit omdat de cybersecurity de keuze tussen US scalers en EU gehoste cloud providers niet langer een vrijblijvende IT-keuze is, maar een wettelijke bestuursverantwoordelijkheid met zware sancties.
 De relatie met soevereine clouds zoals [STACKIT](https://coding.agency/kennisbank/kpn-stackit-soevereine-cloud-nederland#waarom-de-overheid-niet-meer-alleen-op-aws-en-azure-wil-leunen) is direct en cruciaal: NIS2 dwingt organisaties om grip te krijgen op hun digitale toeleveringsketen, en een soevereine cloud biedt daarvoor het juridische en technische fundament.
 
