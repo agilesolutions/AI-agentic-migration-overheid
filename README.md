@@ -1,4 +1,4 @@
-# Copilot Agents en Skills om Overheid migratie te ondersteunen
+# Copilot Agents en Skills om Overheid transitie te ondersteunen
 Bij de extensie van een schijnbare mega achterstand bij overheidsorganisaties omtrent het faceliften van legacy applicaties naar de laatste stand van technology (JDK, Spring framework en boot) en de move 
 van bare-metal RHEL VMs naar Kubernetes lijkt het mij wenselijk het proces te versnellen door het inzetten van AI assisted software engineering ([Intellij Copilot](https://dev.to/eddybenchek/what-i-learned-building-with-github-copilot-as-a-java-developer-9bk)).
 Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind product.
