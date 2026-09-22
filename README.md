@@ -1,4 +1,10 @@
 # Copilot Agents en Skills om Overheid migratie te ondersteunen
+Bij de extensie van een schijnbare mega achterstand bij overheidsorganisaties omtrent het faceliften van legacy applicaties naar de laatste stand van technology (JDK, Spring framework en boot) en de move 
+van bare-metal RHEL VMs naar Kubernetes lijkt het mij wenselijk het proces te versnellen door het inzetten van AI assisted software engineering ([Intellij Copilot](https://dev.to/eddybenchek/what-i-learned-building-with-github-copilot-as-a-java-developer-9bk)).
+Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind product.
+
+Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich.
+
 Migratie werk kan bestaan uit de volgende onderdelen:
 - Een verouderde java applicatie met java versie 8 moet vernieuwd worden naar de laatste lts-versie;
 - De gehele OTAP draait op een of meer RHEL-servers in de kelder van het hoofdgebouw van de klant en moet naar Azure (AKS) worden gebracht;
@@ -8,7 +14,7 @@ Migratie werk kan bestaan uit de volgende onderdelen:
 - De bestaande unit en integration tests zinvol maken.
 
 ## Copilot Architectuur Agents
-Ik heb gekozen om niet één generieke “migration agent” te maken, maar een orchestrator-agent met gespecialiseerde migration skills/instructions. Dat sluit heel goed aan op de opdrachten die Sopra Steria in deze vacature beschrijft: Java 8 → actuele LTS, RHEL/on-prem → Azure/AKS, OpenShift-evaluatie, Jenkins → Azure Pipelines, frameworkselectie en het verbeteren van unit/integration tests.
+Ik heb gekozen om niet één generieke “migration agent” te maken, maar een orchestrator-agent met gespecialiseerde migration skills/instructions. Dat sluit heel goed aan bij de problematiek van het migreren van legacy applicaties en de move van bare metal RHEL VMs naar Kubernetes cloud: Java 8 → actuele LTS, RHEL/on-prem → Azure/AKS, OpenShift-evaluatie, Jenkins → Azure Pipelines, frameworkselectie en het verbeteren van unit/integration tests.
 ```
                          ┌──────────────────────────┐
                          │ java-migration-orchestrator│
