@@ -44,6 +44,7 @@ Ik heb gekozen om niet één generieke “migration agent” te maken, maar een 
 De werkzaamheden kunnen bestaan uit Java 8 naar de laatste LTS, RHEL naar Azure AKS, OpenShift, Jenkins naar Azure Pipelines, frameworkselectie en het verbeteren van unit- en integration-tests.
 
 ## 10 concrete use-case prompts
+Zie prompts onder directory [.github/prompts](.github/prompts/README.md). Deze prompts zijn bedoeld om de migration agent te instrueren en te begeleiden bij het uitvoeren van de migratie. De prompts zijn als volgt:
 1. Analyseer de bestaande Jenkins pipeline en maak een mapping naar Azure DevOps.
 2. Ontwerp een `azure-pipelines.yml` met minimaal checkout, build, unit tests
 3. Ontwerp een `azure-pipelines.yml` met minimaal checkout, build, unit tests, integration tests, package, Jib/container build, quality/security checks, push naar ACR, deployment naar AKS en smoke/health validation.
