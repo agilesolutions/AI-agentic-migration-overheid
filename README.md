@@ -5,6 +5,15 @@ Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind
 
 Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich.
 
+## Verwarring omtrent de move naar Azure
+[NIS2-richtlijn](https://stackit.com/en/learn/knowledge/nis2) (in Nederland de Cyberbeveiligingswet) is op 15 augustus 2026 officieel in werking getreden. Deze wetgeving is relevanter dan ooit omdat de cybersecurity de keuze tussen US scalers en EU gehoste cloud providers niet langer een vrijblijvende IT-keuze is, maar een wettelijke bestuursverantwoordelijkheid met zware sancties.
+De relatie met soevereine clouds zoals [STACKIT](https://coding.agency/kennisbank/kpn-stackit-soevereine-cloud-nederland#waarom-de-overheid-niet-meer-alleen-op-aws-en-azure-wil-leunen) is direct en cruciaal: NIS2 dwingt organisaties om grip te krijgen op hun digitale toeleveringsketen, en een soevereine cloud biedt daarvoor het juridische en technische fundament.
+
+Ik begrijp dan ook niet waarom men geld en energie investeert in het verhuizen van bare-metal VM gehoste oplossingen naar Azure AKS.
+
+
+## Migratie werk gedefinieerd door Sopra Steria gerelateerde overheids projecten
+
 Migratie werk kan bestaan uit de volgende onderdelen:
 - Een verouderde java applicatie met java versie 8 moet vernieuwd worden naar de laatste lts-versie;
 - De gehele OTAP draait op een of meer RHEL-servers in de kelder van het hoofdgebouw van de klant en moet naar Azure (AKS) worden gebracht;
