@@ -80,19 +80,19 @@ Zie prompts onder directory [.github/prompts](.github/prompts/README.md). Deze p
 9. Evalueer de huidige framework en maak een aanbeveling voor een nieuw framework zoals Spring of Quarkus.
 10. Ontwerp een plan voor het verbeteren van de architectuur, security, observability en het implementeren van twelve-factor app principes.
 
-Alle prompts volgen:
+Alle prompts volgen de volgende strategie:
 
 Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Report
 
 ## setup docker compose
 To set up the application using Docker Compose, follow these steps:
 1. Clone the repository:
-   ```bash
+```bash
    git clone <repository-url>
    cd <repository-directory>
-   ```
+  ```
 2. Run app
-   ```bash
+```bash
 docker compose up -d
 ./gradlew bootRun
-   ```
+```
