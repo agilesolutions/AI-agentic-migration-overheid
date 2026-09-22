@@ -12,6 +12,8 @@ De relatie met soevereine clouds zoals [STACKIT](https://coding.agency/kennisban
 
 Ik begrijp dan ook niet waarom men geld en energie investeert in het verhuizen van bare-metal VM gehoste oplossingen naar Azure AKS.
 
+**Note:** Lees het recentelijke NDD publicatie NDD [Mijlpaal Doorbraakproject: "Het Fundament" (De Soevereine Cloud)](https://www.digitaleoverheid.nl/nieuws-nds/nds-cloud-mijlpaal-publicatie-van-het-ontwerp/)
+
 ## Huidige juridische status in Nederland (Cyberbeveiligingswet)
 
 De Europese NIS2-richtlijn (deadline oktober 2024) zijn in Nederland officieel omgezet in nationale wetgeving via de Cyberbeveiligingswet (Cbw). 
