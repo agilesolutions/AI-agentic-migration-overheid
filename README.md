@@ -83,16 +83,3 @@ Zie prompts onder directory [.github/prompts](.github/prompts/README.md). Deze p
 Alle prompts volgen de volgende strategie:
 
 Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Report
-
-## setup docker compose
-To set up the application using Docker Compose, follow these steps:
-1. Clone the repository:
-```bash
-   git clone <repository-url>
-   cd <repository-directory>
-  ```
-2. Run app
-```bash
-docker compose up -d
-./gradlew bootRun
-```
