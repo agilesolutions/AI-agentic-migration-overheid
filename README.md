@@ -3,7 +3,7 @@ Bij de extensie van een schijnbare mega achterstand bij overheidsorganisaties om
 van bare-metal RHEL VMs naar Kubernetes lijkt het mij wenselijk het proces te versnellen door het inzetten van AI assisted software engineering ([Intellij Copilot](https://dev.to/eddybenchek/what-i-learned-building-with-github-copilot-as-a-java-developer-9bk)).
 Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind product.
 
-Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich.
+Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich (Move van VMs naar Kubernetes workloads).
 
 ## Verwarring omtrent de move naar Azure
 [NIS2-richtlijn](https://stackit.com/en/learn/knowledge/nis2) (in Nederland de Cyberbeveiligingswet) is op 15 augustus 2026 officieel in werking getreden. Deze wetgeving is relevanter dan ooit omdat de cybersecurity de keuze tussen US scalers en EU gehoste cloud providers niet langer een vrijblijvende IT-keuze is, maar een wettelijke bestuursverantwoordelijkheid met zware sancties.
