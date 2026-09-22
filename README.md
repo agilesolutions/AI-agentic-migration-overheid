@@ -1,5 +1,63 @@
-# Demo OpenShift Application
-This is a demo application for OpenShift. It is designed to showcase the capabilities of OpenShift
+# Copilot Agents en Skills om Overheid migratie te ondersteunen
+Migratie werk kan bestaan uit de volgende onderdelen:
+- Een verouderde java applicatie met java versie 8 moet vernieuwd worden naar de laatste lts-versie;
+- De gehele OTAP draait op een of meer RHEL-servers in de kelder van het hoofdgebouw van de klant en moet naar Azure (AKS) worden gebracht;
+- Men twijfelt nog over de inzet van OpenShift;
+- De CI/CD is een Jenkins pipeline en die moet naar Azure pipelines worden omgezet;
+- Een nieuw framework worden geselecteerd zoals bijvoorbeeld Spring of Quarkus;
+- De bestaande unit en integration tests zinvol maken.
+
+## Copilot Architectuur Agents
+Ik heb gekozen om niet één generieke “migration agent” te maken, maar een orchestrator-agent met gespecialiseerde migration skills/instructions. Dat sluit heel goed aan op de opdrachten die Sopra Steria in deze vacature beschrijft: Java 8 → actuele LTS, RHEL/on-prem → Azure/AKS, OpenShift-evaluatie, Jenkins → Azure Pipelines, frameworkselectie en het verbeteren van unit/integration tests.
+```
+                         ┌──────────────────────────┐
+                         │ java-migration-orchestrator│
+                         │          agent            │
+                         └────────────┬─────────────┘
+                                      │
+              ┌───────────────────────┼───────────────────────┐
+              │                       │                       │
+              ▼                       ▼                       ▼
+     ┌────────────────┐      ┌────────────────┐      ┌────────────────┐
+     │ Java Migration │      │ Cloud / K8s    │      │ CI/CD Migration│
+     │     Skill      │      │     Skill      │      │     Skill      │
+     └────────────────┘      └────────────────┘      └────────────────┘
+              │                       │                       │
+       Java 8 → LTS             RHEL → AKS             Jenkins → Azure
+       Spring upgrade            OpenShift               Pipelines
+       dependencies             Docker/Jib               quality gates
+       deprecated APIs           Helm                     artifacts
+       
+              ┌───────────────────────┼───────────────────────┐
+              │                       │                       │
+              ▼                       ▼                       ▼
+     ┌────────────────┐      ┌────────────────┐      ┌────────────────┐
+     │ Test Migration │      │ Framework      │      │ Modernization  │
+     │     Skill      │      │ Evaluation     │      │     Review     │
+     └────────────────┘      └────────────────┘      └────────────────┘
+              │                       │                       │
+       JUnit 5                  Spring vs Quarkus       architecture
+       integration              criteria                 security
+       Testcontainers            PoC                      observability
+       test quality              ADR                      twelve-factor
+```
+De werkzaamheden kunnen bestaan uit Java 8 naar de laatste LTS, RHEL naar Azure AKS, OpenShift, Jenkins naar Azure Pipelines, frameworkselectie en het verbeteren van unit- en integration-tests.
+
+## 10 concrete use-case prompts
+1. Analyseer de bestaande Jenkins pipeline en maak een mapping naar Azure DevOps.
+2. Ontwerp een `azure-pipelines.yml` met minimaal checkout, build, unit tests
+3. Ontwerp een `azure-pipelines.yml` met minimaal checkout, build, unit tests, integration tests, package, Jib/container build, quality/security checks, push naar ACR, deployment naar AKS en smoke/health validation.
+4. Maak een migration checklist voor Jenkins → Azure Pipelines.
+5. Analyseer de bestaande Java 8 applicatie en maak een plan voor upgrade naar de laatste LTS-versie van Java.
+6. Evalueer de huidige RHEL-servers en maak een plan voor migratie naar Azure AKS.
+7. Onderzoek de mogelijkheid om OpenShift te gebruiken en maak een aanbeveling.
+8. Analyseer de bestaande unit- en integration-tests en maak een plan om deze te verbeteren en te moderniseren.
+9. Evalueer de huidige framework en maak een aanbeveling voor een nieuw framework zoals Spring of Quarkus.
+10. Ontwerp een plan voor het verbeteren van de architectuur, security, observability en het implementeren van twelve-factor app principes.
+
+Alle prompts volgen:
+
+Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Report
 
 ## setup docker compose
 To set up the application using Docker Compose, follow these steps:
