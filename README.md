@@ -11,6 +11,13 @@ De relatie met soevereine clouds zoals [STACKIT](https://coding.agency/kennisban
 
 Ik begrijp dan ook niet waarom men geld en energie investeert in het verhuizen van bare-metal VM gehoste oplossingen naar Azure AKS.
 
+## Huidige juridische status in Nederland (Cyberbeveiligingswet)
+De Europese NIS2-richtlijn (deadline oktober 2024) zijn in Nederland officieel omgezet in nationale wetgeving via de Cyberbeveiligingswet (Cbw). 
+Na goedkeuring door de Tweede en Eerste Kamer is deze wet op 15 augustus 2026 officieel in werking getreden, zonder overgangsperiode.
+Sinds die datum moeten ruim 8.000 organisaties in Nederland – waaronder **overheidsinstanties** – wettelijk voldoen aan strenge zorg- en meldplichten.
+Grote Amerikaanse cloudaanbieders (waaronder MicroSoft met Azure) vallen onder de Amerikaanse CLOUD Act, waarmee de Amerikaanse overheid in theorie data kan opvorderen. Binnen de NIS2-kaders en de vernieuwde Baseline Informatiebeveiliging Overheid vormt dit een direct compliance-risico voor gevoelige data.
+---
+De overheid gebruikt de implementatie van NIS2 dus als het fundament om te eisen dat vitale overheidsapplicaties uitsluitend nog draaien op infrastructuren die volledig immuun zijn voor extraterritoriale claims.
 
 ## Migratie werk gedefinieerd door Sopra Steria gerelateerde overheids projecten
 
