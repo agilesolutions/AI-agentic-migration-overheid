@@ -6,6 +6,7 @@ Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind
 Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich (Move van VMs naar Kubernetes workloads).
 
 ## Verwarring omtrent de move naar Azure en EU NIS2 (Network and Information Security) richtlijnen
+
 [NIS2-richtlijn](https://stackit.com/en/learn/knowledge/nis2) (in Nederland de Cyberbeveiligingswet) is op 15 augustus 2026 officieel in werking getreden. Deze wetgeving is relevanter dan ooit omdat de cybersecurity de keuze tussen US scalers en EU gehoste cloud providers niet langer een vrijblijvende IT-keuze is, maar een wettelijke bestuursverantwoordelijkheid met zware sancties.
 De relatie met soevereine clouds zoals [STACKIT](https://coding.agency/kennisbank/kpn-stackit-soevereine-cloud-nederland#waarom-de-overheid-niet-meer-alleen-op-aws-en-azure-wil-leunen) is direct en cruciaal: NIS2 dwingt organisaties om grip te krijgen op hun digitale toeleveringsketen, en een soevereine cloud biedt daarvoor het juridische en technische fundament.
 
@@ -17,10 +18,10 @@ De Europese NIS2-richtlijn (deadline oktober 2024) zijn in Nederland officieel o
 Na goedkeuring door de Tweede en Eerste Kamer is deze wet op 15 augustus 2026 officieel in werking getreden, zonder overgangsperiode.
 Sinds die datum moeten ruim 8.000 organisaties in Nederland – waaronder **overheidsinstanties** – wettelijk voldoen aan strenge zorg- en meldplichten.
 Grote Amerikaanse cloudaanbieders (waaronder MicroSoft met Azure) vallen onder de Amerikaanse CLOUD Act, waarmee de Amerikaanse overheid in theorie data kan opvorderen. Binnen de NIS2-kaders en de vernieuwde Baseline Informatiebeveiliging Overheid vormt dit een direct compliance-risico voor gevoelige data.
----
+
 De overheid gebruikt de implementatie van NIS2 dus als het fundament om te eisen dat vitale overheidsapplicaties uitsluitend nog draaien op infrastructuren die volledig immuun zijn voor extraterritoriale claims.
 
-## Migratie werk gedefinieerd door Sopra Steria gerelateerde overheids projecten
+## Sopra Steria migratie werk m.b.t. overheids projecten
 
 Migratie werk kan bestaan uit de volgende onderdelen:
 - Een verouderde java applicatie met java versie 8 moet vernieuwd worden naar de laatste lts-versie;
