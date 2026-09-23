@@ -1,9 +1,7 @@
 # Copilot Agents en Skills om Overheid transitie te ondersteunen
-Bij de extensie van een schijnbare mega achterstand bij overheidsorganisaties omtrent het faceliften van legacy applicaties naar de laatste stand van technology (JDK, Spring framework en boot) en de move 
-van bare-metal RHEL VMs naar Kubernetes lijkt het mij wenselijk het proces te versnellen door het inzetten van AI assisted software engineering ([Intellij Copilot](https://dev.to/eddybenchek/what-i-learned-building-with-github-copilot-as-a-java-developer-9bk)).
-Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind product.
-
-Begrijp overigens niet hoe deze achterstand kan zijn ontstaan. Dit soort werkzaamheden heb ik ca 10 jaar geleden uitgevoerd bij Bank Julius Baer in Zurich (Move van VMs naar Kubernetes workloads).
+Diverse organisaties zijn momenteel druk bezig met het faceliften van legacy applicaties naar de laatste stand van technology (JDK, Spring framework en boot) en de move 
+van bare-metal RHEL VMs naar Kubernetet. Het lijkt het mij wenselijk het proces te versnellen door het inzetten van AI assisted software engineering ([Intellij Copilot](https://dev.to/eddybenchek/what-i-learned-building-with-github-copilot-as-a-java-developer-9bk)).
+Dit versnelt niet alleen het proces maar verbetert ook de kwaliteit van het eind product. Dit project bevat custom AI Copilot Agents en Skills ter ondersteuning van [Modernisering Legacy Systemen](#modernisering-legacy-systemen)
 
 ## Verwarring omtrent de move naar Azure in relatie tot NIS2 richtlijnen
 
@@ -23,7 +21,7 @@ Grote Amerikaanse cloudaanbieders (waaronder MicroSoft met Azure) vallen onder d
 
 De overheid gebruikt de implementatie van NIS2 dus als het fundament om te eisen dat vitale overheidsapplicaties uitsluitend nog draaien op infrastructuren die volledig immuun zijn voor extraterritoriale claims.
 
-## Sopra Steria migratie werk m.b.t. overheids projecten
+## Modernisering Legacy Systemen
 
 Migratie werk kan bestaan uit de volgende onderdelen:
 - Een verouderde java applicatie met java versie 8 moet vernieuwd worden naar de laatste lts-versie;
