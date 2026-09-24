@@ -37,8 +37,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "notebook.fullname" . }}
-            - secretRef:
-                name: {{ include "notebook.fullname" . }}
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: password
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           # 1. Startup Probe: Adjusted for resource-constrained local dev environments

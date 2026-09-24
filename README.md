@@ -86,13 +86,15 @@ Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Re
 
 ## Build and Deploy
 
+```
+
 gradlew jibDockerBuild
 
-```
-helm upgrade --install notebook notebook --set app.enabled=true
+helm upgrade --install notebook notebook --set imagePullSecrets.username="$DOCKERHUB_USERNAME" --set imagePullSecrets.password="$DOCKERHUB_TOKEN" -n notebook --create-namespace
 
-helm upgrade --install notebook notebook --set app.enabled=true -n notebook --create-namespace
+kubectl create secret generic notebook-db --from-literal=username="$DB_USERNAME" --from-literal=password="$DB_PASSWORD" --n notebook --create-namespace
 
+helm list --all-namespaces
 
 
 ```

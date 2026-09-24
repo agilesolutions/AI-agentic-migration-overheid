@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.agilesolutions.notebook'
-version = '1.0.0'
+version = '1.0.1'
 
 java {
 	toolchain {
@@ -94,11 +94,11 @@ jib {
 	}
 
 	to {
-		image = "${System.getenv("DOCKER-REGISTRY")}/notebook:${version}"
+		image = "${System.getenv("DOCKERHUB-REGISTRY")}/notebook:${version}"
 		// Optional: Specify credentials if using a private registry
 		auth {
-			username = "DOCKER-USERNAME"
-			password = "DOCKER-PASSWORD"
+			username = "DOCKERHUB_TOKEN"
+			password = "DOCKERHUB-USERNAME"
 		}
 	}
 	container {
@@ -111,7 +111,7 @@ jib {
 				'-Djava.security.egd=file:/dev/./urandom'
 		]
 		// Set the main class explicitly
-		mainClass = 'com.agilesolutions.openshift.Application'
+		mainClass = 'com.agilesolutions.openshift.NotebookApplication'
 		// Use current timestamp for image creation time
 		creationTime = 'USE_CURRENT_TIMESTAMP'
 		// Set the format to OCI
