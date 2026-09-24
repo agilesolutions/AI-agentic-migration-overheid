@@ -83,3 +83,17 @@ Zie prompts onder directory [.github/prompts](.github/prompts/README.md). Deze p
 Alle prompts volgen de volgende strategie:
 
 Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Report
+
+## Build and Deploy
+
+gradlew jibDockerBuild
+
+```
+helm upgrade --install notebook notebook --set app.enabled=true
+
+helm upgrade --install notebook notebook --set app.enabled=true -n notebook --create-namespace
+
+
+
+```
+
