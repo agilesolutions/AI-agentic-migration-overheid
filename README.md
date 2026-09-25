@@ -87,7 +87,6 @@ Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Re
 ## Build and Deploy
 
 ```
-
 gradlew jibDockerBuild
 
 helm upgrade --install notebook notebook --set imagePullSecrets.username="$DOCKERHUB_USERNAME" --set imagePullSecrets.password="$DOCKERHUB_TOKEN" -n notebook --create-namespace
@@ -96,6 +95,19 @@ kubectl create secret generic notebook-db --from-literal=username="$DB_USERNAME"
 
 helm list --all-namespaces
 
+terraform init
+terraform plan -auto-approve
+terraform apply -auto-approve
+terraform destroy -auto-approve
 
+```
+
+## Run and Test
+
+```
+kubectl port-forward svc/notebook 8080:8080 -n notebook
+
+
+http://localhost:8080/swagger-ui.html
 ```
 
