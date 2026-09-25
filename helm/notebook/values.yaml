@@ -8,7 +8,7 @@ serviceAccount:
 
 image:
   repository: agilesolutions/notebook
-  tag: 1.0.1
+  tag: 1.0.5
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
@@ -30,7 +30,9 @@ app:
   enabled: true
 
 service:
-  type: ClusterIP
+#  type: ClusterIP
+# Docker Desktop will automatically bind that port to your Windows machine's localhost
+  type: LoadBalancer
   port: 8080
 
 ingress:

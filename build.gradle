@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.agilesolutions.notebook'
-version = '1.0.1'
+version = '1.0.5'
 
 java {
 	toolchain {
@@ -38,6 +38,10 @@ dependencies {
 	implementation libs.lombok
 	annotationProcessor libs.lombok
 
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation libs.flyway.core
+	implementation libs.flyway.pg
+
 	// observability
 	implementation libs.otlp.appender
 	implementation libs.spring.otlp
@@ -48,7 +52,6 @@ dependencies {
 	testImplementation libs.spring.restclient.test
 	testImplementation libs.spring.test.containers
 	testImplementation libs.jupiter.test.containers
-	testImplementation libs.keycloak.test.containers
 }
 
 String commit() {

@@ -1,3 +1,9 @@
+resource "kubernetes_namespace_v1" "database" {
+  metadata {
+    name = var.namespace
+  }
+}
+
 resource "helm_release" "postgresql" {
   name             = var.name
   namespace        = var.namespace

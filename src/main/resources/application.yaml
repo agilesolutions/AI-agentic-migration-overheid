@@ -4,7 +4,7 @@ spring:
     name: notebook
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://notebook-postgresql-postgresql:5432/notebook}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://notebook-postgresql.database.svc.cluster.local:5432/notebook}
     username: ${SPRING_DATASOURCE_USERNAME:notebook}
     password: ${SPRING_DATASOURCE_PASSWORD:notebook}
     driver-class-name: org.postgresql.Driver
@@ -12,7 +12,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
         jdbc:
@@ -44,5 +44,6 @@ springdoc:
 logging:
   level:
     org.springframework.web: INFO
-    org.hibernate.SQL: INFO
-    org.flywaydb: INFO
+    org.hibernate.SQL: DEBUG
+    org.flywaydb: DEBUG
+    org.springframework.boot.autoconfigure.flyway: DEBUG
