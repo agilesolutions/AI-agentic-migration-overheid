@@ -109,5 +109,8 @@ kubectl port-forward svc/notebook 8080:8080 -n notebook
 
 
 http://localhost:8080/swagger-ui.html
+
+
+kubectl port-forward svc/kube-prometheus-stack-grafana  3000:80 -n monitoring
 ```
 
