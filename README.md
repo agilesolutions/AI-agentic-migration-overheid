@@ -96,6 +96,10 @@ kubectl create secret generic notebook-db --from-literal=username="$DB_USERNAME"
 
 helm list --all-namespaces
 
+terraform init
+terraform plan -auto-approve
+terraform apply -auto-approve
+terraform destroy -auto-approve
 
 ```
 
