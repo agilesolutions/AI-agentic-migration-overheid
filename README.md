@@ -83,3 +83,19 @@ Zie prompts onder directory [.github/prompts](.github/prompts/README.md). Deze p
 Alle prompts volgen de volgende strategie:
 
 Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Report
+
+## Build and Deploy
+
+```
+
+gradlew jibDockerBuild
+
+helm upgrade --install notebook notebook --set imagePullSecrets.username="$DOCKERHUB_USERNAME" --set imagePullSecrets.password="$DOCKERHUB_TOKEN" -n notebook --create-namespace
+
+kubectl create secret generic notebook-db --from-literal=username="$DB_USERNAME" --from-literal=password="$DB_PASSWORD" --n notebook --create-namespace
+
+helm list --all-namespaces
+
+
+```
+

@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "notebook.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "notebook.fullname" . }}
+    app.kubernetes.io/component: frontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "notebook.fullname" . }}
+      app.kubernetes.io/component: frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "notebook.fullname" . }}
+        app.kubernetes.io/component: frontend
+    spec:
+      serviceAccountName: {{ include "notebook.serviceAccountName" . }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets.name }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ include "notebook.fullname" . }}
+              app.kubernetes.io/component: frontend
+      containers:
+        - name: {{ include "notebook.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: {{ include "notebook.fullname" . }}
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: password
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          # 1. Startup Probe: Adjusted for resource-constrained local dev environments
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 15  # Wait 15 seconds before sending the very first check
+            timeoutSeconds: 120        # CRITICAL: Allow up to 60 seconds for Tomcat to respond
+            periodSeconds: 10        # Check every 10 seconds
+            failureThreshold: 20     # (20 * 10s) + 15s = Gives the app up to 215 seconds to boot
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            timeoutSeconds: 3
+            periodSeconds: 15
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            timeoutSeconds: 3
+            periodSeconds: 15
+            failureThreshold: 3
+            successThreshold: 1

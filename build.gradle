@@ -5,8 +5,8 @@ plugins {
 	id 'com.google.cloud.tools.jib' version '3.4.5'
 }
 
-group = 'com.agilesolutions.openshift'
-version = '1.0.0'
+group = 'com.agilesolutions.notebook'
+version = '1.0.1'
 
 java {
 	toolchain {
@@ -94,13 +94,11 @@ jib {
 	}
 
 	to {
-		image = "${System.getenv("STACKIT_REGISTRY")}/openshift-service:${version}"
+		image = "${System.getenv("DOCKERHUB-REGISTRY")}/notebook:${version}"
 		// Optional: Specify credentials if using a private registry
 		auth {
-//			username = System.getenv("OPENSHIFT_REGISTRY_USER")
-//			password = System.getenv("OPENSHIFT_REGISTRY_PASSWORD")
-			username = "dd"
-			password = "dd"
+			username = "DOCKERHUB_TOKEN"
+			password = "DOCKERHUB-USERNAME"
 		}
 	}
 	container {
@@ -113,7 +111,7 @@ jib {
 				'-Djava.security.egd=file:/dev/./urandom'
 		]
 		// Set the main class explicitly
-		mainClass = 'com.agilesolutions.openshift.Application'
+		mainClass = 'com.agilesolutions.openshift.NotebookApplication'
 		// Use current timestamp for image creation time
 		creationTime = 'USE_CURRENT_TIMESTAMP'
 		// Set the format to OCI

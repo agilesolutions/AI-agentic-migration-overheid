@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "notebook.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    # cert-manager creates the TLS certificate
+    # cert-manager.io/cluster-issuer: { { .Values.ingress.clusterIssuer } }
+    # ExternalDNS creates the DNS record in STACKIT DNS
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.ingress.host }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: notebook
+                port:
+                  number: {{ .Values.service.port }}
+  tls:
+    - secretName: notebook-tls
+      hosts:
+        - {{ .Values.ingress.host }}
+  {{- end }}
