@@ -24,6 +24,12 @@ terraform {
       version = "~> 1.8"
     }
 
+    github = {
+      source  = "integrations/github"
+      version = "~> 6.0"
+    }
+
+
   }
 }
 
@@ -42,5 +48,27 @@ provider "helm" {
   kubernetes {
     config_path    = "~/.kube/config"
     config_context = "docker-desktop"
+  }
+}
+
+provider "github" {
+  owner = "agilesolutions"
+  base_url = "https://github.com"
+  token = var.github_token
+}
+
+provider "flux" {
+  kubernetes = {
+    config_path    = "~/.kube/config"
+    config_context = "docker-desktop"
+  }
+
+  git = {
+    url = "https://github.com/agilesolutions/AI-agentic-migration-overheid"
+    branch = "master"
+    http = {
+      username = "agilesolutions"
+      password = var.github_token # Your GitHub PAT or token variable
+    }
   }
 }
