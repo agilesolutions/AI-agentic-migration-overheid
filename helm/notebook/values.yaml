@@ -8,7 +8,7 @@ serviceAccount:
 
 image:
   repository: agilesolutions/notebook
-  tag: 1.0.5
+  tag: 1.0.7
   pullPolicy: IfNotPresent
 
 imagePullSecrets:

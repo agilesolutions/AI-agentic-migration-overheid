@@ -22,6 +22,7 @@ spring:
 
   flyway:
     enabled: true
+    baseline-on-migrate: true  # Necessary if the database already has tables
     locations:
       - classpath:db/migration
     validate-on-migrate: true

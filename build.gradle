@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.agilesolutions.notebook'
-version = '1.0.5'
+version = '1.0.7'
 
 java {
 	toolchain {
@@ -39,7 +39,7 @@ dependencies {
 	annotationProcessor libs.lombok
 
 	runtimeOnly 'org.postgresql:postgresql'
-	implementation libs.flyway.core
+	implementation libs.spring.flyway
 	implementation libs.flyway.pg
 
 	// observability

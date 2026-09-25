@@ -17,7 +17,8 @@ spring-doc-api = { module = "org.springdoc:springdoc-openapi-starter-webmvc-api"
 oauth2-resource = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server", version.ref = "springBoot" }
 oauth2-client = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "springBoot" }
 lombok = { module = "org.projectlombok:lombok", version = "1.18.44" }
-flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+
+spring-flyway = { module = "org.springframework.boot:spring-boot-starter-flyway", version.ref = "springBoot" }
 flyway-pg = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 postgresql-runtime = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 
