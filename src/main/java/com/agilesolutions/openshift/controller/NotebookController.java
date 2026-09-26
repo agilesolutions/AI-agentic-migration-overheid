@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -92,5 +93,20 @@ public class NotebookController {
             @PathVariable UUID id) {
 
         return notebookService.findById(id);
+    }
+
+    @Operation(
+            summary = "Get all notebooks",
+            description = "Returns all notebooks"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Notebooks retrieved successfully"
+            )
+    })
+    @GetMapping
+    public List<NotebookResponse> getAllNotebooks() {
+        return notebookService.findAll();
     }
 }

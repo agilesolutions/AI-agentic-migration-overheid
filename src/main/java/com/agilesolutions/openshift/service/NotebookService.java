@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,6 +37,14 @@ public class NotebookService {
 
         return toResponse(notebook);
     }
+
+    public List<NotebookResponse> findAll() {
+        return notebookRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
 
     private NotebookResponse toResponse(Notebook notebook) {
         return new NotebookResponse(
