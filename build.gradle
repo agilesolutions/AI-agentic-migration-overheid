@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.agilesolutions.notebook'
-version = '1.0.7'
+version = '1.0.12'
 
 java {
 	toolchain {

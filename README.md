@@ -114,3 +114,30 @@ http://localhost:8080/swagger-ui.html
 kubectl port-forward svc/kube-prometheus-stack-grafana  3000:80 -n monitoring
 ```
 
+## Observability met SpringBoot 4 OTEL en Grafana Alloy collector
+
+```
+Spring Boot 4 application
+        │
+        │ OTLP/gRPC or OTLP/HTTP
+        ▼
+┌──────────────────────┐
+│    Grafana Alloy     │
+│                      │
+│ OTLP receiver        │
+│   ├── traces         │
+│   ├── metrics        │
+│   └── logs           │
+└──────────┬───────────┘
+           │
+           ├── traces ──► Tempo
+           ├── metrics ─► Prometheus/Mimir
+           └── logs ────► Loki
+```
+
+## Grafana dashboard drilldown
+
+```
+kubectl port-forward svc/kube-prometheus-stack-grafana  3000:80 -n monitoring
+```
+

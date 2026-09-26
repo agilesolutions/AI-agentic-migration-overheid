@@ -8,7 +8,7 @@ serviceAccount:
 
 image:
   repository: agilesolutions/notebook
-  tag: 1.0.7
+  tag: 1.0.12
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
@@ -53,3 +53,7 @@ resources:
 config:
   SPRING_PROFILES_ACTIVE: kubernetes
   LOG_LEVEL: INFO
+  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://alloy.monitoring.svc.cluster.local:4318/v1/traces
+  OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: http://alloy.monitoring.svc.cluster.local:4318/v1/metrics
+  OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: http://alloy.monitoring.svc.cluster.local:4318/v1/logs
+  OTEL_TRACES_SAMPLER_ARG: 1.0
