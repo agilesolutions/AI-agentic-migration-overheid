@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/notebooks")
 @RequiredArgsConstructor
+@Slf4j
 @Tag(
         name = "Notebooks",
         description = "REST API for managing notebooks"
@@ -54,10 +56,15 @@ public class NotebookController {
     public ResponseEntity<NotebookResponse> createNotebook(
             @Valid @RequestBody CreateNotebookRequest request) {
 
+        log.info("Saving notebook with title {}", request.title());
+
         NotebookResponse response = notebookService.create(
                 request.title(),
                 request.description()
         );
+
+        log.info("Saved notebook with title {}", request.title());
+
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -92,6 +99,9 @@ public class NotebookController {
             )
             @PathVariable UUID id) {
 
+        log.info("Searching notebook with id {}", id);
+
+
         return notebookService.findById(id);
     }
 
@@ -107,6 +117,10 @@ public class NotebookController {
     })
     @GetMapping
     public List<NotebookResponse> getAllNotebooks() {
+
+        log.info("Finding all notebooks");
+
+
         return notebookService.findAll();
     }
 }

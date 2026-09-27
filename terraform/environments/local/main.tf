@@ -30,7 +30,7 @@ module "alloy" {
 }
 
 
-/*
+
 module "flux" {
   source = "../../modules/fluxcd"
   github_owner      = "agilesolutions"
@@ -41,5 +41,4 @@ module "flux" {
   create_repository = false
   deploy_key_read_only = false
 }
-*/
 
