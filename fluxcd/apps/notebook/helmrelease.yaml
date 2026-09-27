@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: agilesolutios/notebook
-      tag: 1.0.0 # {"$imagepolicy": "flux-system:vergunning-service-policy:tag"}
+      tag: 1.0.14 # {"$imagepolicy": "flux-system:vergunning-service-policy:tag"}
     service:
       port: 8080
     ingress:
