@@ -37,6 +37,7 @@ flux resume kustomization notebook   # Restores automatic syncing
 flux logs --all-namespaces
 flux logs --level=error
 flux tree kustomization flux-system
+flux reconcile hr notebook -n notebook
 flux get helmrelease notebook -n notebook
 flux logs --kind=HelmRelease --name=notebook -f -n notebook
 kubectl describe helmrelease notebook -n notebook
