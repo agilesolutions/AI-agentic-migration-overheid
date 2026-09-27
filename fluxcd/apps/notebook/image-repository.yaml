@@ -1,0 +1,8 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: notebook
+  namespace: flux-system
+spec:
+  image: agilesolutions/notebook
+  interval: 5m
