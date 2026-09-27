@@ -13051,6 +13051,13 @@ spec:
     singular: imagepolicy
   scope: Namespaced
   versions:
+  - name: v1
+    served: false
+    storage: false
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
   - additionalPrinterColumns:
     - jsonPath: .status.latestImage
       name: LatestImage
@@ -13240,7 +13247,7 @@ spec:
             type: object
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}
   - additionalPrinterColumns:
@@ -13539,6 +13546,13 @@ spec:
     singular: imagerepository
   scope: Namespaced
   versions:
+  - name: v1
+    served: false
+    storage: false
+    schema:
+      openAPIV3Schema:
+        type: object
+        x-kubernetes-preserve-unknown-fields: true
   - additionalPrinterColumns:
     - jsonPath: .status.lastScanResult.scanTime
       name: Last scan
@@ -13761,7 +13775,7 @@ spec:
             type: object
         type: object
     served: true
-    storage: false
+    storage: true
     subresources:
       status: {}
   - additionalPrinterColumns:
