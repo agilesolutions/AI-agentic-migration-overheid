@@ -65,7 +65,7 @@ provider "flux" {
 
   git = {
     url = "https://github.com/agilesolutions/AI-agentic-migration-overheid"
-    branch = "master"
+    branch = "05-fix-terraform-fluxcd"
     http = {
       username = "agilesolutions"
       password = var.github_token # Your GitHub PAT or token variable
