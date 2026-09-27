@@ -17,9 +17,9 @@ git clone https://github.com/agilesolutions/stackit-spring-ms-k8s.git
 ```
 2. Navigate to the project directory and build each individual service like here under and setup FluxCD
 ```bash
-cd services/vergunning-service
+cd .
 # this will build the service and push the Docker image to the container registry (e.g., Docker Hub, ECR)
-gradle release
+ggradlew jibDockerBuild
 ```
 3. Bootstrap FluxCD in your Kubernetes cluster:
 ```
@@ -27,6 +27,26 @@ flux bootstrap github --owner=agilesolutions --repository=stackit-spring-ms-k8s 
 ```
 5. Monitor the deployment status using FluxCD and kubectl:
 ```bash
+flux get secrets     # List Flux managed secrets
+flux get sources git # View Git sources and sync status
+flux get kustomizations # View Kustomization statuses
+flux reconcile source git flux-system
+flux reconcile kustomization flux-system
+flux suspend kustomization notebook  # Temporarily stops syncing changes
+flux resume kustomization notebook   # Restores automatic syncing
+flux logs --all-namespaces
+flux logs --level=error
+flux tree kustomization flux-system
+flux get helmrelease notebook -n notebook
+flux logs --kind=HelmRelease --name=notebook -f -n notebook
+kubectl describe helmrelease notebook -n notebook
+flux debug hr notebook --show-history -n notebook
+flux debug hr notebook --show-status -n notebook
+flux logs -f -A
+flux logs -f --kind=HelmRelease --name=notebook -n notebook
+flux logs -f -n flux-system deployment/helm-controller
+kubectl get events -n flux-system --sort-by='.metadata.creationTimestamp'
+kubectl get events -A
 # To check the status of the Kustomizations, you can run:
 flux get kustomizations
 # To watch for changes in the Kustomizations, you can run:

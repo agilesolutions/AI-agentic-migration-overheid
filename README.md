@@ -145,7 +145,7 @@ kubectl port-forward svc/kube-prometheus-stack-grafana  3000:80 -n monitoring
 [Central idea is to show how to use GitOps](docs/gitops-strategie.md) (FluxCD) to manage the deployment of a microservices application on Kubernetes.
 1. How to bootstrap FluxCD in your Kubernetes cluster:
 ```
-flux bootstrap github --owner=agilesolutions --repository=AI-agentic-migration-overheid --branch=master --path=./fluxcd/flux-system --personal
+flux bootstrap github --owner=agilesolutions --repository=AI-agentic-migration-overheid --branch=master --path=./fluxcd/flux-system --components-extra=image-reflector-controller,image-automation-controller --personal
 ```
 Read full instructions in [docus/fluxcd.md](docs/fluxcd.md)
 

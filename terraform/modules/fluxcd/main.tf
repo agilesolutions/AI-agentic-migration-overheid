@@ -53,6 +53,7 @@ resource "github_repository_deploy_key" "flux" {
 # - notification-controller
 # - image-reflector-controller
 # - image-automation-controller
+/*
 resource "flux_bootstrap_git" "this" {
   path = "fluxcd/flux-system"
   namespace = "flux-system"
@@ -67,3 +68,4 @@ resource "flux_bootstrap_git" "this" {
     github_repository_deploy_key.flux
   ]
 }
+*/
