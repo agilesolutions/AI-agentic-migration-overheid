@@ -54,7 +54,7 @@ resource "github_repository_deploy_key" "flux" {
 # - image-reflector-controller
 # - image-automation-controller
 resource "flux_bootstrap_git" "this" {
-  path = "fluxcd/flux-system"
+  path = ""
   namespace = "flux-system"
   version = "v2.9.0"
   interval = var.flux_interval
