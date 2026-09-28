@@ -116,7 +116,7 @@ publish-notebook:
     - export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
     - export DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD
   script:
-    - gradle jibDockerBuild
+    - gradle jib
   only:
     - master
 
