@@ -101,7 +101,7 @@ jib {
 		// Optional: Specify credentials if using a private registry
 		auth {
 			username = "DOCKERHUB_TOKEN"
-			password = "DOCKERHUB-USERNAME"
+			password = "DOCKERHUB_USERNAME"
 		}
 	}
 	container {
