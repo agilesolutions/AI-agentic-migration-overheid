@@ -100,8 +100,8 @@ jib {
 		image = "${System.getenv("DOCKERHUB_REGISTRY")}/notebook:${version}"
 		// Optional: Specify credentials if using a private registry
 		auth {
-			username = "DOCKERHUB_TOKEN"
-			password = "DOCKERHUB_USERNAME"
+			username = System.getenv("DOCKERHUB_USERNAME") ?: ""
+			password = System.getenv("DOCKERHUB_PASSWORD") ?: ""
 		}
 	}
 	container {
