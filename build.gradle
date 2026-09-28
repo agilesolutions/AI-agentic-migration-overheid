@@ -97,7 +97,7 @@ jib {
 	}
 
 	to {
-		image = "${System.getenv("DOCKERHUB_REGISTRY")}/notebook:${version}"
+		image = System.getenv('DOCKERHUB_REGISTRY') + '/your-image-name'
 		// Optional: Specify credentials if using a private registry
 		auth {
 			username = System.getenv("DOCKERHUB_USERNAME") ?: ""

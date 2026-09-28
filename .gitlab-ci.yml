@@ -45,10 +45,6 @@ terraform-validate:
 
 build:
   stage: build
-  before_script:
-    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
-    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
-    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
   script:
     - echo "SETTINGS DEFINED VARIABLE STACKIT_REGISTRY is ${STACKIT_REGISTRY}"
     - gradle clean assemble
@@ -71,10 +67,6 @@ test:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
-  before_script:
-    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
-    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
-    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
   script:
     - gradle test
     - gradle jacocoTestReport
@@ -98,10 +90,6 @@ integration-test:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
-  before_script:
-    - export DOCKERHUB_REGISTRY=$DOCKERHUB_REGISTRY
-    - export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
-    - export DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD
   script:
     - gradle integrationTest
 
@@ -111,10 +99,6 @@ integration-test:
 
 publish-notebook:
   stage: publish
-  before_script:
-    - export DOCKERHUB_REGISTRY=$DOCKERHUB_REGISTRY
-    - export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
-    - export DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD
   script:
     - gradle jib
   only:
