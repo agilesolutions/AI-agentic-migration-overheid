@@ -1,0 +1,194 @@
+stages:
+  - validate
+  - build
+  - test
+  - package
+  - publish
+  - infrastructure
+
+variables:
+  SKIP_TEST: "true"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  DOCKER_TLS_CERTDIR: ""
+  TF_ROOT: terraform/environments/local
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+default:
+  image: gradle:9.3.0-jdk25
+
+before_script:
+  - export DOCKER_HOST="tcp://docker:2375" # Needed for Testcontainers in CI
+  - chmod -R +x gradle
+
+###########################################################
+# TERRAFORM
+###########################################################
+
+terraform-validate:
+  stage: validate
+  image:
+    name: hashicorp/terraform:1.15.7
+    entrypoint: [""]
+  script:
+    - cd ${TF_ROOT}
+    - terraform init -backend=false
+    - terraform validate
+
+###########################################################
+# BUILD
+###########################################################
+
+build:
+  stage: build
+  before_script:
+    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
+    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
+    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
+  script:
+    - echo "SETTINGS DEFINED VARIABLE STACKIT_REGISTRY is ${STACKIT_REGISTRY}"
+    - gradle clean assemble
+    - echo "Build."
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build/libs/*.jar
+
+###########################################################
+# UNIT TESTS
+###########################################################
+
+test:
+  stage: test
+  rules:
+    - if: $SKIP_TEST == "true"
+      when: never
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+  before_script:
+    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
+    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
+    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
+  script:
+    - gradle test
+    - gradle jacocoTestReport
+  artifacts:
+    reports:
+      junit:
+        - "**/build/test-results/test/*.xml"
+    paths:
+      - "**/build/reports/jacoco"
+
+###########################################################
+# INTEGRATION TESTS
+###########################################################
+
+integration-test:
+  stage: test
+  rules:
+    - if: $SKIP_TEST == "true"
+      when: never
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+  before_script:
+    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
+    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
+    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
+  script:
+    - gradle integrationTest
+
+###########################################################
+# BUILD CONTAINER IMAGES
+###########################################################
+
+publish-notebook:
+  stage: publish
+  before_script:
+    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
+    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
+    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
+  script:
+    - gradle jibDockerBuild
+  only:
+    - master
+
+###########################################################
+# HELM PACKAGE
+###########################################################
+
+helm-package:
+  stage: package
+  image:
+    name: alpine/helm:3.17.3
+    entrypoint: [""]
+  script:
+    - helm lint helm/notebook
+    - helm package helm/notebook
+  artifacts:
+    paths:
+      - "*.tgz"
+
+###########################################################
+# TERRAFORM PLAN
+###########################################################
+terraform-plan:
+  stage: infrastructure
+  image:
+    name: hashicorp/terraform:1.12
+    entrypoint: [""]
+  script:
+    - cd ${TF_ROOT}
+    - terraform init
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - terraform/tfplan
+  only:
+    - release/*
+###########################################################
+# DEV DEPLOYMENT
+###########################################################
+
+deploy-dev:
+  stage: publish
+  environment:
+    name: dev
+  script:
+    - echo "FluxCD reconciles deployment"
+  only:
+    - develop
+
+###########################################################
+# TEST DEPLOYMENT
+###########################################################
+
+deploy-test:
+  stage: publish
+  environment:
+    name: test
+  script:
+    - echo "FluxCD reconciles deployment"
+  only:
+    - release/*
+
+###########################################################
+# PROD DEPLOYMENT
+###########################################################
+
+deploy-prod:
+  stage: publish
+  environment:
+    name: production
+  when: manual
+  script:
+    - echo "FluxCD reconciles deployment"
+  only:
+    - release/*
