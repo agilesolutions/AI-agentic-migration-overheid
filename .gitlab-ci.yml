@@ -99,9 +99,9 @@ integration-test:
   variables:
     DOCKER_HOST: tcp://docker:2375
   before_script:
-    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
-    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
-    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
+    - export DOCKERHUB_REGISTRY=$DOCKERHUB_REGISTRY
+    - export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+    - export DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD
   script:
     - gradle integrationTest
 
@@ -112,9 +112,9 @@ integration-test:
 publish-notebook:
   stage: publish
   before_script:
-    - export STACKIT_REGISTRY=$STACKIT_REGISTRY
-    - export STACKIT_REGISTRY_USER=$STACKIT_REGISTRY_USER
-    - export STACKIT_REGISTRY_PASSWORD=$STACKIT_REGISTRY_PASSWORD
+    - export DOCKERHUB-REGISTRY=$DOCKERHUB-REGISTRY
+    - export DOCKERHUB_TOKEN=$DOCKERHUB_TOKEN
+    - export DOCKERHUB-USERNAME=$DOCKERHUB-USERNAME
   script:
     - gradle jibDockerBuild
   only:
