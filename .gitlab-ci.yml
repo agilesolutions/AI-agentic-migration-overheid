@@ -112,9 +112,9 @@ integration-test:
 publish-notebook:
   stage: publish
   before_script:
-    - export DOCKERHUB-REGISTRY=$DOCKERHUB-REGISTRY
-    - export DOCKERHUB_TOKEN=$DOCKERHUB_TOKEN
-    - export DOCKERHUB-USERNAME=$DOCKERHUB-USERNAME
+    - export DOCKERHUB_REGISTRY=$DOCKERHUB_REGISTRY
+    - export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+    - export DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD
   script:
     - gradle jibDockerBuild
   only:
