@@ -120,3 +120,51 @@ resource "helm_release" "lgtm_stack" {
     yamlencode(var.custom_values)
   ]
 }
+
+resource "local_file" "lgtm_otel_metrics_patch" {
+  filename = "${path.module}/.generated/lgtm-otel-metrics-patch.yaml"
+
+  content = yamlencode({
+    spec = {
+      config = {
+        service = {
+          pipelines = {
+            metrics = {
+              receivers = [
+                "otlp",
+                "hostmetrics",
+                "prometheus",
+                "kubeletstats"
+              ]
+            }
+          }
+        }
+      }
+    }
+  })
+}
+
+resource "null_resource" "patch_lgtm_otlp_metrics_pipeline" {
+  depends_on = [
+    helm_release.lgtm_stack
+  ]
+
+  triggers = {
+    lgtm_revision = helm_release.lgtm_stack.metadata[0].revision
+    patch_file    = filesha256("${path.module}/otel-metrics-patch.yaml")
+  }
+
+  provisioner "local-exec" {
+    interpreter = [
+      "PowerShell",
+      "-Command"
+    ]
+
+    command = <<-EOT
+      kubectl patch opentelemetrycollector otel-node-collector `
+        -n ${var.namespace} `
+        --type=merge `
+        --patch-file="${path.module}/otel-metrics-patch.yaml"
+    EOT
+  }
+}
