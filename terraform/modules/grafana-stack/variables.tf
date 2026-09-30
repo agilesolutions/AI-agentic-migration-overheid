@@ -40,3 +40,15 @@ variable "custom_values" {
   description = "Additional deep-merge values to override the PromptlyLabs Helm defaults."
   default     = {}
 }
+
+variable "opentelemetry_operator_version" {
+  description = "OpenTelemetry Operator Helm chart version"
+  type        = string
+  default     = "0.122.1"
+}
+
+variable "cert_manager_version" {
+  description = "cert-manager Helm chart version"
+  type        = string
+  default     = "v1.18.2"
+}
