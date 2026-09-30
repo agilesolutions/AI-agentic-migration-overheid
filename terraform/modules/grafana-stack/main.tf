@@ -3,40 +3,7 @@ resource "kubernetes_namespace_v1" "monitoring" {
     name = var.namespace
   }
 }
-# Phase 1: Bootstrapping the official OpenTelemetry Operator to register its schemas
-resource "helm_release" "opentelemetry_operator" {
-  name             = "opentelemetry-operator"
-  # ✅ FIXED: Corrected the full repository URL to point to the actual charts path
-  repository       = "https://open-telemetry.github.io/opentelemetry-helm-charts"
-  chart            = "opentelemetry-operator"
-  version          = "0.71.1"
-  namespace        = var.namespace
-  create_namespace = var.create_namespace
 
-  # Explicitly set the collector image repo variables as required by the chart
-  set {
-    name  = "manager.collectorImage.repository"
-    value = "otel/opentelemetry-collector-contrib"
-  }
-
-  # Install the CRD specifications natively as templates into your cluster
-  set {
-    name  = "crds.create"
-    value = "true"
-  }
-
-  # Turn off cert-manager hooks
-  set {
-    name  = "admissionWebhooks.certManager.enabled"
-    value = "false"
-  }
-
-  # Target the .enabled parameter inside the autoGenerateCert object
-  set {
-    name  = "admissionWebhooks.autoGenerateCert.enabled"
-    value = "true"
-  }
-}
 
 # Phase 2: Deploying the PromptlyLabs LGTM Stack
 resource "helm_release" "lgtm_stack" {
@@ -46,9 +13,6 @@ resource "helm_release" "lgtm_stack" {
   version          = var.chart_version
   namespace        = var.namespace
   create_namespace = var.create_namespace
-
-  # Forces Terraform to wait for Phase 1 to stand up the API endpoints before proceeding
-  depends_on = [helm_release.opentelemetry_operator]
 
   # Bypasses client-side validation loops on custom configuration overrides
   disable_openapi_validation = true
