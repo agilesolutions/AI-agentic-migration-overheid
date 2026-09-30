@@ -4,7 +4,14 @@ terraform {
 
   required_providers {
 
-    kubernetes = {
+
+      grafana = {
+        source  = "grafana/grafana"
+        version = "~> 4.47"
+      }
+
+
+      kubernetes = {
       source = "hashicorp/kubernetes"
       version = "~> 3.2"
     }
