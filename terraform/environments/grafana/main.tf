@@ -37,3 +37,17 @@ module "traefik" {
   replica_count = 1
   enable_metrics = false
 }
+
+module "grafana_alert" {
+  source = "../../modules/grafana-alert"
+
+  namespace = "monitoring"
+
+  grafana_url = "http://localhost:3000"
+
+  grafana_token = var.grafana_token
+
+  alert_email = "grafana-alerts@example.local"
+
+  depends_on = [module.grafana-stack]
+}

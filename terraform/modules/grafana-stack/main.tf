@@ -76,6 +76,15 @@ resource "helm_release" "lgtm_stack" {
       grafana = {
         adminPassword = var.grafana_admin_password
 
+        "grafana.ini" = {
+          smtp = {
+            enabled      = true
+            host         = "mailpit.monitoring.svc.cluster.local:1025"
+            from_address = "grafana-alerts@example.local"
+            from_name    = "Grafana Alert Demo"
+          }
+        }
+
         persistence = {
           enabled = var.persistence_enabled
           size    = "2Gi"

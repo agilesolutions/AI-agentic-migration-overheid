@@ -26,3 +26,13 @@ variable "grafana_admin_password" {
   sensitive = true
 }
 
+variable "mattermost_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "grafana_token" {
+  description = "Grafana service account token"
+  type        = string
+  sensitive   = true
+}
