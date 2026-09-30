@@ -1,7 +1,21 @@
 module "grafana-stack" {
   source       = "../../modules/grafana-stack"
-  cluster_name = "production-mesh"
-  namespace    = "monitoring"
+  namespace        = "monitoring"
+  create_namespace = true
+
+  # Override default Grafana web portal administrative access controls
+  grafana_admin_password = var.grafana_admin_password
+
+  # Ensure you ALSO remove the invalid top-level "prometheus" block if it's still here
+  custom_values = {
+    kube-prometheus-stack = {
+      prometheus = {
+        prometheusSpec = {
+          retention = "15d"
+        }
+      }
+    }
+  }
 }
 
 module "postgresql" {

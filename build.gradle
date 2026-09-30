@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.agilesolutions.notebook'
-version = '1.0.14'
+version = '1.0.15'
 
 java {
 	toolchain {
@@ -97,7 +97,7 @@ jib {
 	}
 
 	to {
-		image = System.getenv('DOCKERHUB_REGISTRY') + '/your-image-name'
+		image = System.getenv('DOCKERHUB_REGISTRY') + "/notebook:${version}"
 		// Optional: Specify credentials if using a private registry
 		auth {
 			username = System.getenv("DOCKERHUB_USERNAME") ?: ""

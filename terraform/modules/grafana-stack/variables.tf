@@ -1,17 +1,42 @@
-variable "cluster_name" {
-  type        = string
-  description = "The name of the Kubernetes cluster being monitored."
-  default     = "my-kubernetes-cluster"
-}
-
 variable "namespace" {
   type        = string
-  description = "The target namespace where the monitoring stack will be deployed."
-  default     = "monitoring"
+  description = "The Kubernetes namespace where the LGTM stack will be deployed."
+  default     = "observability"
+}
+
+variable "create_namespace" {
+  type        = bool
+  description = "Whether to create the Kubernetes namespace if it does not exist."
+  default     = true
 }
 
 variable "chart_version" {
   type        = string
-  description = "The version of the grafana/k8s-monitoring helm chart to install."
-  default     = "4.5.2" # Adjust to the latest stable major release
+  description = "The specific version of the PromptlyLabs LGTM helm chart to deploy."
+  default     = null # Installs the latest version if not specified
+}
+
+variable "grafana_admin_password" {
+  type        = string
+  description = "Custom admin password for the Grafana dashboard."
+  default     = "admin"
+  sensitive   = true
+}
+
+variable "persistence_enabled" {
+  type        = bool
+  description = "Enable persistent volume storage for the stateful components."
+  default     = true
+}
+
+variable "persistence_size" {
+  type        = string
+  description = "The storage volume size allocated for telemetry data retention."
+  default     = "20Gi"
+}
+
+variable "custom_values" {
+  type        = any
+  description = "Additional deep-merge values to override the PromptlyLabs Helm defaults."
+  default     = {}
 }

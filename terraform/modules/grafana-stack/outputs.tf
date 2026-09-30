@@ -1,9 +1,9 @@
-output "namespace" {
-  value       = helm_release.grafana_stack.namespace
-  description = "The namespace where the monitoring stack was installed."
+output "helm_release_status" {
+  description = "The deployment status of the Helm chart release."
+  value       = helm_release.lgtm_stack.status
 }
 
-output "release_name" {
-  value       = helm_release.grafana_stack.name
-  description = "The Helm release name."
+output "grafana_service_url" {
+  description = "The internal Kubernetes service URL targeting the Grafana frontend interface."
+  value       = "http://lgtm-grafana.${var.namespace}.svc.cluster.local:80"
 }
