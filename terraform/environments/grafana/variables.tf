@@ -12,11 +12,17 @@ variable "namespace" {
 
 variable "chart_version" {
   type        = string
-  description = "The version of the grafana/k8s-monitoring helm chart to install."
-  default     = "4.5.2" # Adjust to the latest stable major release
+  description = "The version of the promptlylabs.github.io/lgtm-helm-chart helm chart to install."
+  default     = "0.28.0" # Adjust to the latest stable major release
 }
 
 variable "postgres_password" {
   type      = string
   sensitive = true
 }
+
+variable "grafana_admin_password" {
+  type      = string
+  sensitive = true
+}
+
