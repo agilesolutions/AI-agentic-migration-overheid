@@ -84,22 +84,26 @@ Alle prompts volgen de volgende strategie:
 
 Assess → Baseline → Plan → Execute → Test → Deploy → Validate → Report
 
-## Build and Deploy
+## Terraform provision LGTM grafana stack, PostgreSQL database, traefik ingress controller
+
+```
+cd terraform/environment/grafana
+
+terraform init
+
+terraform validate
+
+terraform plan
+
+terraform apply -auto-approve
+```
+
+## Build, bootstrap FluxCD and GitOps deploy notebook application
 
 ```
 gradlew jibDockerBuild
 
-helm upgrade --install notebook notebook --set imagePullSecrets.username="$DOCKERHUB_USERNAME" --set imagePullSecrets.password="$DOCKERHUB_TOKEN" -n notebook --create-namespace
-
-kubectl create secret generic notebook-db --from-literal=username="$DB_USERNAME" --from-literal=password="$DB_PASSWORD" --n notebook --create-namespace
-
-helm list --all-namespaces
-
-terraform init
-terraform plan -auto-approve
-terraform apply -auto-approve
-terraform destroy -auto-approve
-
+flux bootstrap github --owner=agilesolutions --repository=AI-agentic-migration-overheid --branch=master --path=./fluxcd --components-extra=image-reflector-controller,image-automation-controller --personal
 ```
 
 ## Run and Test
@@ -109,9 +113,17 @@ kubectl port-forward svc/notebook 8080:8080 -n notebook
 
 
 http://localhost:8080/swagger-ui.html
+```
 
 
+## Grafana observe
+
+```
 kubectl port-forward svc/kube-prometheus-stack-grafana  3000:80 -n monitoring
+
+
+http://localhost:3000
+
 ```
 
 ## Observability met SpringBoot 4 OTEL en Grafana Alloy collector
