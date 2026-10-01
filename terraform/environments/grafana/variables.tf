@@ -26,3 +26,14 @@ variable "grafana_admin_password" {
   sensitive = true
 }
 
+variable "grafana_url" {
+  description = "Grafana URL"
+  type        = string
+  default     = "http://localhost:3000"
+}
+
+variable "grafana_token" {
+  description = "Grafana service account token"
+  type        = string
+  sensitive   = true
+}

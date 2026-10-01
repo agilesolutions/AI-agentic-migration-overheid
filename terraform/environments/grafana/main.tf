@@ -44,12 +44,3 @@ module "grafana_webhook_receiver" {
   namespace = "monitoring"
   name      = "grafana-webhook"
 }
-
-
-resource "grafana_contact_point" "webhook" {
-  name = "local-webhook"
-
-  webhook {
-    url = module.grafana_webhook_receiver.webhook_url
-  }
-}

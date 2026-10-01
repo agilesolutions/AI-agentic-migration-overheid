@@ -6,7 +6,7 @@ locals {
   }
 }
 
-resource "kubernetes_config_map" "receiver" {
+resource "kubernetes_config_map_v1" "receiver" {
   metadata {
     name      = "${var.name}-code"
     namespace = var.namespace
@@ -114,7 +114,7 @@ resource "kubernetes_config_map" "receiver" {
   }
 }
 
-resource "kubernetes_deployment" "receiver" {
+resource "kubernetes_deployment_v1" "receiver" {
   metadata {
     name      = var.name
     namespace = var.namespace
@@ -196,7 +196,7 @@ resource "kubernetes_deployment" "receiver" {
           name = "receiver-code"
 
           config_map {
-            name = kubernetes_config_map.receiver.metadata[0].name
+            name = kubernetes_config_map_v1.receiver.metadata[0].name
           }
         }
       }
@@ -204,7 +204,7 @@ resource "kubernetes_deployment" "receiver" {
   }
 }
 
-resource "kubernetes_service" "receiver" {
+resource "kubernetes_service_v1" "receiver" {
   metadata {
     name      = var.name
     namespace = var.namespace

@@ -36,3 +36,8 @@ provider "helm" {
     config_context = "docker-desktop"
   }
 }
+
+provider "grafana" {
+  url  = var.grafana_url
+  auth = var.grafana_token
+}
