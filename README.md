@@ -126,6 +126,48 @@ http://localhost:3000
 
 ```
 
+## Grafana alerts
+The Loki query for the alert is:
+
+```
+sum(
+count_over_time(
+{namespace="notebook"} |= "ERROR" [5m]
+)
+) > 0
+
+```
+This means that if there are any log entries in the last 5 minutes that contain the string "ERROR" in the "notebook" namespace, the alert will fire.
+
+```
+kubectl port-forward svc/grafana-webhook 8080:8080 -n monitoring
+
+kubectl logs -n monitoring deployment/grafana-webhook -f
+```
+The logs will show the alerts received from Grafana and the actions taken by the webhook.
+
+You will see something like this in the logs:
+
+```
+{
+  "receiver": "local-webhook",
+  "status": "firing",
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "NotebookErrorLogs",
+        "namespace": "notebook"
+      },
+      "annotations": {
+        "summary": "Notebook application error"
+      }
+    }
+  ]
+}
+```
+
+
 ## Observability met SpringBoot 4 OTEL en Grafana Alloy collector
 
 ```

@@ -80,6 +80,14 @@ resource "helm_release" "lgtm_stack" {
           enabled = var.persistence_enabled
           size    = "2Gi"
         }
+        extraConfigmapMounts = [
+          {
+            name      = "grafana-alerting-provisioning"
+            mountPath = "/etc/grafana/provisioning/alerting"
+            subPath   = ""
+            readOnly  = true
+            configMap = "grafana-alerting-provisioning"
+          }]
       }
 
       kube-prometheus-stack = {
@@ -166,5 +174,42 @@ resource "null_resource" "patch_lgtm_otlp_metrics_pipeline" {
         --type=merge `
         --patch-file="${path.module}/otel-metrics-patch.yaml"
     EOT
+  }
+}
+
+resource "kubernetes_config_map_v1" "grafana_alerting" {
+  metadata {
+    name      = "grafana-alerting-provisioning"
+    namespace = var.namespace
+  }
+
+  data = {
+    "contact-points.yaml" = <<-YAML
+      apiVersion: 1
+
+      contactPoints:
+        - orgId: 1
+          name: local-webhook
+
+          receivers:
+            - uid: local-webhook
+              type: webhook
+
+              settings:
+                url: http://grafana-webhook.monitoring.svc.cluster.local:8080/webhook
+                httpMethod: POST
+    YAML
+
+    "policies.yaml" = <<-YAML
+      apiVersion: 1
+
+      policies:
+        - orgId: 1
+          receiver: local-webhook
+
+          group_by:
+            - alertname
+            - namespace
+    YAML
   }
 }

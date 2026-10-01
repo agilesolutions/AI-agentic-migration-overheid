@@ -37,3 +37,10 @@ module "traefik" {
   replica_count = 1
   enable_metrics = false
 }
+
+module "grafana_webhook_receiver" {
+  source = "../../modules/grafana-webhook-receiver"
+
+  namespace = "monitoring"
+  name      = "grafana-webhook"
+}

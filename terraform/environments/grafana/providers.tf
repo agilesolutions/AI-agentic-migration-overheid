@@ -4,7 +4,14 @@ terraform {
 
   required_providers {
 
-    kubernetes = {
+
+      grafana = {
+        source  = "grafana/grafana"
+        version = "~> 4.47"
+      }
+
+
+      kubernetes = {
       source = "hashicorp/kubernetes"
       version = "~> 3.2"
     }
@@ -28,4 +35,9 @@ provider "helm" {
     config_path    = "~/.kube/config"
     config_context = "docker-desktop"
   }
+}
+
+provider "grafana" {
+  url  = var.grafana_url
+  auth = var.grafana_token
 }
