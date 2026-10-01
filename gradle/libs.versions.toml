@@ -5,6 +5,7 @@ springDoc = "2.8.9"
 testContainers = "1.19.3"
 flyway = "11.14.1"
 postgresql = "42.6.0"
+h2 = "2.1.214"
 
 [libraries]
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
@@ -37,3 +38,7 @@ spring-test-containers = { module = "org.springframework.boot:spring-boot-testco
 jupiter-test-containers = { module = "org.testcontainers:junit-jupiter", version.ref = "testContainers" }
 postgresql-test-containers = { module = "org.testcontainers:postgresql", version.ref = "testContainers" }
 keycloak-test-containers = { module = "com.github.dasniko:testcontainers-keycloak", version = "4.2.1" }
+
+# Test and migration libraries
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }

@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '4.0.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'com.google.cloud.tools.jib' version '3.4.5'
+	id 'jacoco'
 }
 
 group = 'com.agilesolutions.notebook'
@@ -52,6 +53,20 @@ dependencies {
 	testImplementation libs.spring.restclient.test
 	testImplementation libs.spring.test.containers
 	testImplementation libs.jupiter.test.containers
+	// Additional test libraries from version catalog
+	// Testcontainers JUnit and PostgreSQL support are provided via the catalog entries
+	testImplementation libs.jupiter.test.containers
+	testImplementation libs.postgresql.test.containers
+	// In-memory DB for repository slice tests
+	testImplementation libs.h2
+	// Flyway core on test classpath so migrations can be executed against test DB
+	testImplementation libs.flyway.core
+
+	// Explicit Spring test starter provides test slice support (WebMvcTest, MockBean, Data JPA test helpers etc.)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Ensure test autoconfigure/artifacts are directly available to test compile
+	testImplementation 'org.springframework.boot:spring-boot-test'
+	testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
 }
 
 String commit() {
@@ -86,8 +101,40 @@ tasks.register('release', GradleBuild) {
 }
 
 test {
-	enabled = false
+	useJUnitPlatform()
+	enabled = true
+	// Exclude integration tests (named *IT) from the default unit test task
+	exclude '**/*IT.class'
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
+
+// Separate integrationTest task for Testcontainers-based tests (classes ending with IT)
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+tasks.register('integrationTest', Test) {
+	useJUnitPlatform()
+	description = 'Runs integration tests that require containers or external resources.'
+	group = 'verification'
+
+	// include only *IT tests
+	include '**/*IT.class'
+
+	testClassesDirs = sourceSets.test.output.classesDirs
+	classpath = sourceSets.test.runtimeClasspath
+
+	testLogging {
+		events TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED
+		showStandardStreams = true
+	}
+
+	// Integration tests may be slower; increase timeout or fork if needed
+	jvmArgs = ['-Xmx1g']
+}
+
+// Make 'check' depend on integrationTest so CI can run both when desired; keep optional by running only 'test' locally
+check.dependsOn(tasks.named('integrationTest'))
 
 jib {
 
@@ -121,4 +168,9 @@ jib {
 		format = 'OCI'
 	}
 
+}
+
+// Load jacoco extra configuration if present
+if (file('gradle/jacoco.gradle').exists()) {
+    apply from: 'gradle/jacoco.gradle'
 }
