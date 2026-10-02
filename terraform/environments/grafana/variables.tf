@@ -37,3 +37,10 @@ variable "grafana_token" {
   type        = string
   sensitive   = true
 }
+
+variable "prometheus_service_url" {
+  type        = string
+  description = "Prometheus URL used by Tempo metrics-generator for service graph metrics."
+
+  default = null
+}
