@@ -1,7 +1,7 @@
 package com.agilesolutions.openshift.controller;
 
-import com.agilesolutions.openshift.dto.CreateNotebookRequest;
-import com.agilesolutions.openshift.dto.NotebookResponse;
+import com.agilesolutions.openshift.api.model.CreateNotebookRequest;
+import com.agilesolutions.openshift.api.model.Notebook;
 import com.agilesolutions.openshift.service.NotebookService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,7 +12,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 class NotebookControllerTest {
@@ -22,15 +21,18 @@ class NotebookControllerTest {
         NotebookService service = Mockito.mock(NotebookService.class);
         NotebookController controller = new NotebookController(service);
 
-        NotebookResponse resp = new NotebookResponse(UUID.randomUUID(), "T", "D", OffsetDateTime.now(), OffsetDateTime.now());
-        when(service.create(anyString(), anyString())).thenReturn(resp);
+        Notebook resp = new Notebook(UUID.randomUUID(), "T", "D", OffsetDateTime.now(), OffsetDateTime.now());
+        when(service.createNotebook(any(CreateNotebookRequest.class))).thenReturn(resp);
 
-        CreateNotebookRequest req = new CreateNotebookRequest("T", "D");
+        CreateNotebookRequest req = new CreateNotebookRequest();
+        req.setTitle("T");
+        req.setDescription("D");
+
         var response = controller.createNotebook(req);
 
         assertThat(response.getStatusCode().value()).isEqualTo(201);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().title()).isEqualTo("T");
+        assertThat(response.getBody().getTitle()).isEqualTo("T");
     }
 
     @Test
@@ -39,14 +41,15 @@ class NotebookControllerTest {
         NotebookController controller = new NotebookController(service);
 
         UUID id = UUID.randomUUID();
-        NotebookResponse resp = new NotebookResponse(id, "T2", "D2", OffsetDateTime.now(), OffsetDateTime.now());
-        when(service.findById(id)).thenReturn(resp);
-        when(service.findAll()).thenReturn(List.of(resp));
+        Notebook resp = new Notebook(id, "T2", "D2", OffsetDateTime.now(), OffsetDateTime.now());
+        when(service.getNotebookById(id)).thenReturn(resp);
+        when(service.getAllNotebooks()).thenReturn(List.of(resp));
 
-        var single = controller.getNotebook(id);
+        var single = controller.getNotebookById(id);
         var all = controller.getAllNotebooks();
 
-        assertThat(single.id()).isEqualTo(id);
-        assertThat(all).hasSize(1);
+        assertThat(single.getBody()).isNotNull();
+        assertThat(single.getBody().getId()).isEqualTo(id);
+        assertThat(all.getBody()).hasSize(1);
     }
 }

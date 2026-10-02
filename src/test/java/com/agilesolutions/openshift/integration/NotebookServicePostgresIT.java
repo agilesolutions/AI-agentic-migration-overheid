@@ -1,6 +1,7 @@
 package com.agilesolutions.openshift.integration;
 
-import com.agilesolutions.openshift.dto.NotebookResponse;
+import com.agilesolutions.openshift.api.model.CreateNotebookRequest;
+import com.agilesolutions.openshift.api.model.Notebook;
 import com.agilesolutions.openshift.service.NotebookService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
@@ -39,10 +40,14 @@ class NotebookServicePostgresIT {
 
     @Test
     void createAndFind_persistsWithMigrations() {
-        NotebookResponse created = notebookService.create("IT-Note", "integration");
-        assertThat(created.id()).isNotNull();
+        CreateNotebookRequest request = new CreateNotebookRequest();
+        request.setTitle("IT-Note");
+        request.setDescription("integration");
 
-        NotebookResponse found = notebookService.findById(created.id());
-        assertThat(found.title()).isEqualTo("IT-Note");
+        Notebook created = notebookService.createNotebook(request);
+        assertThat(created.getId()).isNotNull();
+
+        Notebook found = notebookService.getNotebookById(created.getId());
+        assertThat(found.getTitle()).isEqualTo("IT-Note");
     }
 }

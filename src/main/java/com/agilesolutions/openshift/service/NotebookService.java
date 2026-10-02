@@ -1,11 +1,12 @@
 package com.agilesolutions.openshift.service;
 
-import com.agilesolutions.openshift.dto.NotebookResponse;
-import com.agilesolutions.openshift.entity.Notebook;
+import com.agilesolutions.openshift.api.model.CreateNotebookRequest;
+import com.agilesolutions.openshift.api.model.Notebook;
+import com.agilesolutions.openshift.api.model.UpdateNotebookRequest;
+import com.agilesolutions.openshift.entity.NotebookEntity;
 import com.agilesolutions.openshift.exception.NotebookNotFoundException;
 import com.agilesolutions.openshift.repository.NotebookRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,58 +14,92 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
-@Transactional(readOnly = true)
+@Transactional
 public class NotebookService {
 
-    private final NotebookRepository notebookRepository;
-
-    @Transactional
-    public NotebookResponse create(
-            String title,
-            String description) {
-
-        log.info("Saving notebook with title {}", title);
+    private final NotebookRepository repository;
 
 
-        Notebook notebook = new Notebook(title, description);
-
-        Notebook savedNotebook = notebookRepository.save(notebook);
-
-        log.info("Saved notebook with title {}", title);
-
-        return toResponse(savedNotebook);
+    public NotebookService(NotebookRepository repository) {
+        this.repository = repository;
     }
 
-    public NotebookResponse findById(UUID id) {
 
-        Notebook notebook = notebookRepository.findById(id)
-                .orElseThrow(() -> new NotebookNotFoundException(id));
+    @Transactional(readOnly = true)
+    public List<Notebook> getAllNotebooks() {
 
-        log.info("Searching notebook by id {}", id);
-
-        return toResponse(notebook);
-    }
-
-    public List<NotebookResponse> findAll() {
-
-        log.info("Listing up all notebooks");
-
-        return notebookRepository.findAll()
+        return repository.findAll()
                 .stream()
-                .map(this::toResponse)
+                .map(this::toApiModel)
                 .toList();
     }
 
 
-    private NotebookResponse toResponse(Notebook notebook) {
-        return new NotebookResponse(
-                notebook.getId(),
-                notebook.getTitle(),
-                notebook.getDescription(),
-                notebook.getCreatedAt(),
-                notebook.getUpdatedAt()
-        );
+    @Transactional(readOnly = true)
+    public Notebook getNotebookById(UUID id) {
+
+        NotebookEntity entity = repository.findById(id)
+                .orElseThrow(() ->
+                        new NotebookNotFoundException(id));
+
+        return toApiModel(entity);
+    }
+
+
+    public Notebook createNotebook(
+            CreateNotebookRequest request) {
+
+        NotebookEntity entity = new NotebookEntity();
+
+        entity.setTitle(request.getTitle());
+        entity.setDescription(request.getDescription());
+
+        NotebookEntity saved =
+                repository.save(entity);
+
+        return toApiModel(saved);
+    }
+
+
+    public Notebook updateNotebook(
+            UUID id,
+            UpdateNotebookRequest request) {
+
+        NotebookEntity entity = repository.findById(id)
+                .orElseThrow(() ->
+                        new NotebookNotFoundException(id));
+
+        entity.setTitle(request.getTitle());
+        entity.setDescription(request.getDescription());
+
+        NotebookEntity saved =
+                repository.save(entity);
+
+        return toApiModel(saved);
+    }
+
+
+    public void deleteNotebook(UUID id) {
+
+        if (!repository.existsById(id)) {
+            throw new NotebookNotFoundException(id);
+        }
+
+        repository.deleteById(id);
+    }
+
+
+    private Notebook toApiModel(
+            NotebookEntity entity) {
+
+        Notebook notebook = new Notebook();
+
+        notebook.setId(entity.getId());
+        notebook.setTitle(entity.getTitle());
+        notebook.setDescription(entity.getDescription());
+        notebook.setCreatedAt(entity.getCreatedAt());
+        notebook.setUpdatedAt(entity.getUpdatedAt());
+
+        return notebook;
     }
 }
