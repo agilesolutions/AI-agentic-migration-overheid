@@ -60,6 +60,7 @@ build:
 
 test:
   stage: test
+  image: gradle:9.3.0-jdk21
   rules:
     - if: $SKIP_TEST == "true"
       when: never
@@ -68,14 +69,11 @@ test:
   variables:
     DOCKER_HOST: tcp://docker:2375
   script:
-    - gradle test
-    - gradle jacocoTestReport
+    - ./gradlew clean test jacocoTestCoverageVerification --no-daemon --console=plain
   artifacts:
     reports:
       junit:
         - "**/build/test-results/test/*.xml"
-    paths:
-      - "**/build/reports/jacoco"
 
 ###########################################################
 # INTEGRATION TESTS
