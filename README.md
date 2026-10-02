@@ -167,6 +167,27 @@ You will see something like this in the logs:
 }
 ```
 
+## Enabling Grafana Service Graph
+Tempo is a distributed tracing backend that can be used to visualize service graphs in Grafana. To enable service graphs, you need to configure Tempo to receive traces from your application and then configure Grafana to display the service graph.
+
+```
+                    OTLP
+Notebook ─────────────────────► Tempo
+   │                              │
+   │                              │ service-graphs
+   │                              ▼
+   │                         Metrics Generator
+   │                              │
+   │                              │ remote_write
+   │                              ▼
+   │                         Prometheus
+   │                              │
+   │                              ▼
+   └──────────────────────────► Grafana
+                                  │
+                                  ▼
+                            Service Graph
+```
 
 ## Observability met SpringBoot 4 OTEL en Grafana Alloy collector
 

@@ -52,3 +52,10 @@ variable "cert_manager_version" {
   type        = string
   default     = "v1.18.2"
 }
+
+variable "prometheus_service_url" {
+  type        = string
+  description = "Prometheus URL used by Tempo metrics-generator for service graph metrics."
+
+  default = null
+}

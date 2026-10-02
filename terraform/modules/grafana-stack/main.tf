@@ -41,7 +41,7 @@ resource "helm_release" "opentelemetry_operator" {
     name  = "crds.create"
     value = "true"
   }
-
+`
   set {
     name  = "manager.collectorImage.repository"
     value = "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s"
@@ -117,12 +117,52 @@ resource "helm_release" "lgtm_stack" {
         }
       }
 
+      # Tempo tracing sub-chart routing
       tempo = {
         persistence = {
           enabled = var.persistence_enabled
           size    = var.persistence_size
         }
+
+        metricsGenerator = {
+          enabled = true
+
+          config = {
+            storage = {
+              path = "/var/tempo/generator/wal"
+
+              remote_write = [
+                {
+                  url            = "${var.prometheus_service_url}/api/v1/write"
+                  send_exemplars = true
+                }
+              ]
+            }
+
+            processor = {
+              service_graphs = {
+                wait       = "10s"
+                max_items  = 10000
+                workers    = 10
+                dimensions = []
+              }
+            }
+          }
+        }
+
+        overrides = {
+          defaults = {
+            metrics_generator = {
+              processors = [
+                "service-graphs"
+              ]
+            }
+          }
+        }
       }
+
+
+
     }),
 
     yamlencode(var.custom_values)
