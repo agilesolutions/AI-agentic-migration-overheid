@@ -1,7 +1,7 @@
 
 [versions]
 springBoot = "4.0.6"
-springDoc = "2.8.9"
+springDoc = "3.1.1"
 testContainers = "1.19.3"
 flyway = "11.14.1"
 postgresql = "42.6.0"

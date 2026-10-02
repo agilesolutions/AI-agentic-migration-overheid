@@ -1,5 +1,6 @@
 package com.agilesolutions.openshift.controller;
 
+import com.agilesolutions.openshift.api.model.Notebook;
 import com.agilesolutions.openshift.dto.CreateNotebookRequest;
 import com.agilesolutions.openshift.dto.NotebookResponse;
 import com.agilesolutions.openshift.service.NotebookService;
@@ -32,14 +33,14 @@ class NotebookControllerMockMvcTest {
     void postCreateNotebook_returnsCreated() throws Exception {
         NotebookService notebookService = Mockito.mock(NotebookService.class);
         UUID id = UUID.randomUUID();
-        NotebookResponse resp = new NotebookResponse(id, "T", "D", OffsetDateTime.now(), OffsetDateTime.now());
-        when(notebookService.create(anyString(), anyString())).thenReturn(resp);
+        Notebook resp = new Notebook(id, "T", "D", OffsetDateTime.now(), OffsetDateTime.now());
+        when(notebookService.createNotebook(any())).thenReturn(resp);
 
         CreateNotebookRequest req = new CreateNotebookRequest("T", "D");
         NotebookController controller = new NotebookController(notebookService);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
-        mockMvc.perform(post("/api/notebooks")
+        mockMvc.perform(post("/api/v1/notebooks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
@@ -53,19 +54,19 @@ class NotebookControllerMockMvcTest {
     void getEndpoints_returnNotebookAndList() throws Exception {
         NotebookService notebookService = Mockito.mock(NotebookService.class);
         UUID id = UUID.randomUUID();
-        NotebookResponse resp = new NotebookResponse(id, "T2", "D2", OffsetDateTime.now(), OffsetDateTime.now());
-        when(notebookService.findById(id)).thenReturn(resp);
-        when(notebookService.findAll()).thenReturn(List.of(resp));
+        Notebook resp = new Notebook(id, "T2", "D2", OffsetDateTime.now(), OffsetDateTime.now());
+        when(notebookService.getNotebookById(id)).thenReturn(resp);
+        when(notebookService.getAllNotebooks()).thenReturn(List.of(resp));
 
         NotebookController controller = new NotebookController(notebookService);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
-        mockMvc.perform(get("/api/notebooks/{id}", id))
+        mockMvc.perform(get("/api/v1/notebooks/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id.toString()))
                 .andExpect(jsonPath("$.title").value("T2"));
 
-        mockMvc.perform(get("/api/notebooks"))
+        mockMvc.perform(get("/api/v1/notebooks"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
     }

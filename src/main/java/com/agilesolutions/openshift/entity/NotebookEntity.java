@@ -20,8 +20,8 @@ import java.util.UUID;
 @Table(name = "notebook")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notebook {
+@NoArgsConstructor
+public class NotebookEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,20 +39,20 @@ public class Notebook {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    public Notebook(String title, String description) {
+    public NotebookEntity(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         OffsetDateTime now = OffsetDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         this.updatedAt = OffsetDateTime.now();
     }
 }

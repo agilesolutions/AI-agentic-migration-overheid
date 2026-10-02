@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '4.0.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'com.google.cloud.tools.jib' version '3.4.5'
+	id 'org.openapi.generator' version '7.25.0'
 	id 'jacoco'
 }
 
@@ -136,6 +137,52 @@ tasks.register('integrationTest', Test) {
 // Make 'check' depend on integrationTest so CI can run both when desired; keep optional by running only 'test' locally
 check.dependsOn(tasks.named('integrationTest'))
 
+def openApiGeneratedDir =
+		layout.buildDirectory
+				.dir("generated/openapi")
+				.get()
+				.asFile
+
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$rootDir/openapi/notebook-api.yaml"
+	outputDir = openApiGeneratedDir.absolutePath
+	apiPackage = "com.agilesolutions.openshift.api"
+	modelPackage = "com.agilesolutions.openshift.api.model"
+	invokerPackage = "com.agilesolutions.openshift.api.invoker"
+	configOptions = [
+			library                     : "spring-boot",
+			useSpringBoot4              : "true",
+			useJakartaEe                : "true",
+			useJackson3                 : "true",
+			interfaceOnly               : "true",
+			useResponseEntity           : "true",
+			useSpringController         : "false",
+			useTags                     : "true",
+			useBeanValidation           : "true",
+			useSpringBuiltInValidation : "true",
+			openApiNullable             : "false",
+			dateLibrary                 : "java8",
+			hideGenerationTimestamp     : "true",
+			skipDefaultInterface        : "true",
+			generatedConstructorWithRequiredArgs: "true"
+	]
+
+	globalProperties = [
+			apis            : "",
+			models          : "",
+			supportingFiles : "false"
+	]
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir "$buildDir/generated/openapi/src/main/java"
+		}
+	}
+}
+
 jib {
 
 	from {
@@ -173,4 +220,12 @@ jib {
 // Load jacoco extra configuration if present
 if (file('gradle/jacoco.gradle').exists()) {
     apply from: 'gradle/jacoco.gradle'
+}
+
+compileJava {
+	dependsOn tasks.openApiGenerate
+}
+
+clean {
+	delete "$buildDir/generated"
 }

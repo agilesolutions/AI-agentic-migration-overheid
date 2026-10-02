@@ -1,126 +1,92 @@
 package com.agilesolutions.openshift.controller;
 
-import com.agilesolutions.openshift.dto.CreateNotebookRequest;
-import com.agilesolutions.openshift.dto.NotebookResponse;
+import com.agilesolutions.openshift.api.NotebooksApi;
+import com.agilesolutions.openshift.api.model.CreateNotebookRequest;
+import com.agilesolutions.openshift.api.model.Notebook;
+import com.agilesolutions.openshift.api.model.UpdateNotebookRequest;
 import com.agilesolutions.openshift.service.NotebookService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/notebooks")
-@RequiredArgsConstructor
-@Slf4j
-@Tag(
-        name = "Notebooks",
-        description = "REST API for managing notebooks"
-)
-public class NotebookController {
+public class NotebookController
+        implements NotebooksApi {
 
     private final NotebookService notebookService;
 
-    @Operation(
-            summary = "Create a notebook",
-            description = "Creates a new notebook"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Notebook created successfully"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid request",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @PostMapping
-    public ResponseEntity<NotebookResponse> createNotebook(
-            @Valid @RequestBody CreateNotebookRequest request) {
 
-        log.info("Saving notebook with title {}", request.title());
+    public NotebookController(
+            NotebookService notebookService) {
 
-        NotebookResponse response = notebookService.create(
-                request.title(),
-                request.description()
+        this.notebookService = notebookService;
+    }
+
+
+    @Override
+    public ResponseEntity<List<Notebook>>
+    getAllNotebooks() {
+
+        return ResponseEntity.ok(
+                notebookService.getAllNotebooks()
         );
+    }
 
-        log.info("Saved notebook with title {}", request.title());
 
+    @Override
+    public ResponseEntity<Notebook>
+    createNotebook(
+            CreateNotebookRequest request) {
+
+        Notebook notebook =
+                notebookService.createNotebook(request);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+                .created(
+                        URI.create(
+                                "/api/v1/notebooks/"
+                                        + notebook.getId()
+                        )
+                )
+                .body(notebook);
     }
 
-    @Operation(
-            summary = "Get a notebook",
-            description = "Returns a notebook by its UUID"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Notebook found"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Notebook not found",
-                    content = @Content(
-                            schema = @Schema(
-                                    implementation = ErrorResponse.class
-                            )
-                    )
-            )
-    })
-    @GetMapping("/{id}")
-    public NotebookResponse getNotebook(
-            @Parameter(
-                    description = "Notebook UUID",
-                    required = true,
-                    example = "550e8400-e29b-41d4-a716-446655440000"
-            )
-            @PathVariable UUID id) {
 
-        log.info("Searching notebook with id {}", id);
+    @Override
+    public ResponseEntity<Notebook>
+    getNotebookById(UUID id) {
 
-
-        return notebookService.findById(id);
+        return ResponseEntity.ok(
+                notebookService.getNotebookById(id)
+        );
     }
 
-    @Operation(
-            summary = "Get all notebooks",
-            description = "Returns all notebooks"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Notebooks retrieved successfully"
-            )
-    })
-    @GetMapping
-    public List<NotebookResponse> getAllNotebooks() {
 
-        log.info("Finding all notebooks");
+    @Override
+    public ResponseEntity<Notebook>
+    updateNotebook(
+            UUID id,
+            UpdateNotebookRequest request) {
+
+        return ResponseEntity.ok(
+                notebookService.updateNotebook(
+                        id,
+                        request
+                )
+        );
+    }
 
 
-        return notebookService.findAll();
+    @Override
+    public ResponseEntity<Void>
+    deleteNotebook(UUID id) {
+
+        notebookService.deleteNotebook(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
