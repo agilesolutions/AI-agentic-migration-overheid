@@ -41,7 +41,6 @@ resource "helm_release" "opentelemetry_operator" {
     name  = "crds.create"
     value = "true"
   }
-`
   set {
     name  = "manager.collectorImage.repository"
     value = "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s"

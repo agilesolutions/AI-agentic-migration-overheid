@@ -56,6 +56,5 @@ variable "cert_manager_version" {
 variable "prometheus_service_url" {
   type        = string
   description = "Prometheus URL used by Tempo metrics-generator for service graph metrics."
-
-  default = null
+  default = "http://prom-stack-prometheus.monitoring.svc.cluster.local:9090"
 }

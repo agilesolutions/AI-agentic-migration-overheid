@@ -44,3 +44,39 @@ module "grafana_webhook_receiver" {
   namespace = "monitoring"
   name      = "grafana-webhook"
 }
+
+module "kafka" {
+  source = "../../modules/kafka"
+
+  name      = "redpanda"
+  namespace = "messaging"
+
+  replicas = 1
+
+  # Redpanda resources
+  cpu_cores    = 1
+  memory_limit = "2Gi"
+
+  # Storage
+  storage_enabled = true
+  storage_size    = "5Gi"
+
+  # TLS
+  tls_enabled = true
+
+  # Schema Registry
+  schema_registry_enabled = true
+
+  # Console
+  console_enabled      = true
+  console_service_type = "ClusterIP"
+
+  # No external Kafka listener for now.
+  external_enabled = false
+
+  common_labels = {
+    project     = "AI-agentic-migration-overheid"
+    environment = "docker-desktop"
+    component   = "kafka"
+  }
+}
